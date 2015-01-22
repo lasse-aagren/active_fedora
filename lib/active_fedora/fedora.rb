@@ -13,8 +13,20 @@ module ActiveFedora
       @config[:base_path] || '/'
     end
 
+    def username
+      @config[:user]
+    end
+
+    def password
+      @config[:password]
+    end
+
     def connection
       @connection ||= Ldp::Client.new(host)
+      if username and password
+        @connection.http.basic_auth(username, password)
+      end
+      return @connection
     end
 
     SLASH = '/'.freeze
