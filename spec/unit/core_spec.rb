@@ -123,4 +123,22 @@ describe ActiveFedora::Base do
       it { should eq '123456w' }
     end
   end
+
+  describe "when serializing an object" do 
+    let(:book) { Book.create(title:"foo") }
+    it "should handle an empty base path" do
+      allow(ActiveFedora.fedora).to receive(:base_path).and_return("/")
+      expect(ActiveFedora::Base.find(book.id).class.name).to eq("Book")
+    end
+
+    it "should handle a really empty base path" do
+      allow(ActiveFedora.fedora).to receive(:base_path).and_return("")
+      expect(ActiveFedora::Base.find(book.id).class.name).to eq("Book")
+    end
+
+    it "should handle a non-empty base path" do
+      allow(ActiveFedora.fedora).to receive(:base_path).and_return("/test")
+      expect(ActiveFedora::Base.find(book.id).class.name).to eq("Book")
+    end
+  end  
 end
