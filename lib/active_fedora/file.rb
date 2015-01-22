@@ -260,11 +260,11 @@ module ActiveFedora
         ldp_source.content = payload
         if new_record?
           ldp_source.create do |req|
-            req.headers = headers
+            req.headers = req.headers.merge headers
           end
         else
           ldp_source.update do |req|
-            req.headers = headers
+            req.headers = req.headers.merge headers
           end
         end
         reset
